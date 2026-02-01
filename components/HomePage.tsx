@@ -50,6 +50,22 @@ export default function HomePage() {
                 <span className="text-gradient-accent">en un solo lugar</span>
               </h1>
 
+              {/* Hero Video */}
+              <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+                <div className="relative max-w-3xl mx-auto">
+                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+                    <video
+                      src="/hero/hero-video.mp4"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Subheadline */}
               <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto mb-8 leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 Hecho para profesionales que viven de sus citas. Reservas online, recordatorios por WhatsApp y pagos sin fricción.
@@ -107,7 +123,7 @@ export default function HomePage() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20 transform -translate-y-4">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
                       <Image
                         src="/hero/hero-2.jpg"
                         alt="Estudio de tatuajes"

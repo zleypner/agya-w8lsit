@@ -2,14 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 60/30/10 Color Scheme: Deep Blue / White / Orange */
+/* 60/30/10 Color Scheme: Cyan-Blue-Purple Gradient / White / Coral */
 :root {
-  --color-primary: #1E3A8A;
+  --color-primary: #3B82F6;
   --color-secondary: #FFFFFF;
-  --color-accent: #F97316;
-  --color-background: #2B4A9B;
+  --color-accent: #FF6B4A;
+  --color-cyan: #00D4FF;
+  --color-indigo: #6366F1;
+  --color-background: #2563EB;
   --foreground-rgb: 255, 255, 255;
-  --background-rgb: 43, 74, 155;
+  --background-rgb: 37, 99, 235;
 }
 
 body {
@@ -34,26 +36,37 @@ body {
 
 /* Playful/Friendly gradient backgrounds */
 .gradient-primary {
-  background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 100%);
+  background: linear-gradient(135deg, #00D4FF 0%, #3B82F6 50%, #6366F1 100%);
 }
 
 .gradient-accent {
-  background: linear-gradient(135deg, #F97316 0%, #FDBA74 100%);
+  background: linear-gradient(135deg, #FF6B4A 0%, #FF8A70 100%);
 }
 
 .gradient-hero {
   background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 50%, #FFF7ED 100%);
 }
 
+/* Brand gradient matching logo */
+.gradient-brand {
+  background: linear-gradient(180deg, #00D4FF 0%, #3B82F6 50%, #6366F1 100%);
+}
+
 /* Playful floating blob backgrounds - for dark background */
 .blob-blue {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(0, 212, 255, 0.2);
   border-radius: 50%;
   filter: blur(60px);
 }
 
 .blob-orange {
-  background: rgba(249, 115, 22, 0.15);
+  background: rgba(255, 107, 74, 0.15);
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.blob-purple {
+  background: rgba(99, 102, 241, 0.15);
   border-radius: 50%;
   filter: blur(60px);
 }
@@ -92,7 +105,7 @@ body {
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, #F97316 0%, #FB923C 100%);
+  background: linear-gradient(135deg, #FF6B4A 0%, #FF8A70 100%);
   color: white;
   border-radius: 9999px;
   font-weight: 600;
@@ -101,7 +114,7 @@ body {
 
 .btn-accent:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 107, 74, 0.3);
 }
 
 /* Glass morphism effect */
@@ -120,21 +133,21 @@ body {
 
 /* Friendly text gradients - for dark background */
 .text-gradient-primary {
-  background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 100%);
+  background: linear-gradient(135deg, #00D4FF 0%, #3B82F6 50%, #6366F1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .text-gradient-accent {
-  background: linear-gradient(135deg, #FFFFFF 0%, #FDBA74 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FF8A70 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .text-gradient-orange {
-  background: linear-gradient(135deg, #F97316 0%, #FDBA74 100%);
+  background: linear-gradient(135deg, #FF6B4A 0%, #FF8A70 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
