@@ -32,8 +32,10 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
         }),
       })
 
+      const data = await response.json().catch(() => ({}))
+
       if (!response.ok) {
-        throw new Error('Error al enviar el formulario')
+        throw new Error(data?.error ?? 'Error al enviar el formulario')
       }
 
       setIsSubmitted(true)

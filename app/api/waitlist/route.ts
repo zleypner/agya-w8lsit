@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createServerSupabase } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { name, email, whatsapp, niche } = body
 
-    // Validate required fields
     if (!name || !email || !niche) {
       return NextResponse.json(
         { error: 'Faltan campos requeridos' },
@@ -13,23 +13,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // TODO: Implement actual storage
-    // Examples:
-    // - Save to database (Prisma, Supabase, etc.)
-    // - Send to email service (SendGrid, Mailchimp, etc.)
-    // - Save to Google Sheets via API
-    // - Send to CRM (HubSpot, Salesforce, etc.)
+    const supabase = createServerSupabase()
 
-    console.log('New waitlist signup:', {
-      name,
-      email,
-      whatsapp,
-      niche,
-      timestamp: new Date().toISOString(),
+    const { error } = await supabase.from('waitlist').insert({
+      name: String(name).trim(),
+      email: String(email).trim().toLowerCase(),
+      whatsapp: whatsapp ? String(whatsapp).trim() : null,
+      niche: String(niche).trim(),
     })
 
-    // Simulate processing
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    if (error) {
+      console.error('Supabase waitlist insert error:', error)
+      if (error.code === '23505') {
+        return NextResponse.json(
+          { error: 'Este correo ya está en la lista de espera' },
+          { status: 409 }
+        )
+      }
+      return NextResponse.json(
+        { error: 'Error al procesar tu solicitud' },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json(
       {
