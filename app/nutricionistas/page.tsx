@@ -1,8 +1,9 @@
-import WaitlistForm from '@/components/WaitlistForm'
 import PainPoint from '@/components/PainPoint'
 import SocialProof from '@/components/SocialProof'
 import AuthorityBadge from '@/components/AuthorityBadge'
 import PresaleSection from '@/components/PresaleSection'
+import SectionHeader from '@/components/SectionHeader'
+import WaitlistSection from '@/components/WaitlistSection'
 
 export const metadata = {
   title: 'AgendaYaa para Nutricionistas - Lista de Espera',
@@ -49,9 +50,9 @@ export default function NutricionistasPage() {
         <section className="py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4">
             <div className="card-friendly p-8 md:p-10 animate-fade-in-up">
-              <h2 className="text-3xl font-bold text-primary-900 mb-8">
-                ¿Te identificás con estos problemas?
-              </h2>
+              <div className="mb-8">
+                <SectionHeader title="¿Te identificás con estos problemas?" variant="dark" />
+              </div>
               <ul className="space-y-4">
                 <PainPoint index={0}>
                   Las herramientas genéricas no manejan bien el seguimiento recurrente de pacientes que necesitan múltiples consultas
@@ -74,12 +75,11 @@ export default function NutricionistasPage() {
         <section className="py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4">
             <div className="card-friendly p-8 md:p-10 animate-fade-in-up">
-              <h2 className="text-3xl font-bold text-primary-900 mb-4">
-                AgendaYaa está diseñado para nutricionistas
-              </h2>
-              <p className="text-primary-700 leading-relaxed text-lg">
-                Una plataforma que entiende tu flujo de trabajo: seguimiento de pacientes, historiales nutricionales, planes personalizados y gestión de consultas recurrentes. Todo en un solo lugar, sin complicaciones.
-              </p>
+              <SectionHeader
+                title="AgendaYaa está diseñado para nutricionistas"
+                subtitle="Una plataforma que entiende tu flujo de trabajo: seguimiento de pacientes, historiales nutricionales, planes personalizados y gestión de consultas recurrentes. Todo en un solo lugar, sin complicaciones."
+                variant="dark"
+              />
             </div>
           </div>
         </section>
@@ -94,22 +94,11 @@ export default function NutricionistasPage() {
         {/* Presale Section */}
         <PresaleSection niche="nutricionistas" />
 
-        {/* Waitlist Form */}
-        <section className="py-16 md:py-24">
-          <div className="max-w-2xl mx-auto px-4">
-            <div className="card-friendly p-8 md:p-10">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-4">
-                  Unite a la lista de espera
-                </h2>
-                <p className="text-primary-600 leading-relaxed">
-                  Sumate y te avisamos cuando abramos acceso para nutricionistas. Entrás temprano, asegurás precio fundador.
-                </p>
-              </div>
-              <WaitlistForm niche="nutricionistas" />
-            </div>
-          </div>
-        </section>
+        <WaitlistSection
+          title="Unite a la lista de espera"
+          subtitle="Sumate y te avisamos cuando abramos acceso para nutricionistas. Entrás temprano, asegurás precio fundador."
+          niche="nutricionistas"
+        />
       </div>
     </div>
   )

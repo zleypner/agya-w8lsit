@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import SectionHeader from './SectionHeader'
 
 const faqs = [
   {
@@ -35,14 +36,13 @@ export default function FAQ() {
   return (
     <section className="py-16 md:py-24">
       <div className="max-w-3xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-4">
-            Preguntas frecuentes
-          </h2>
-          <p className="text-primary-600">
-            Todo lo que necesitás saber sobre AgendaYaa.
-          </p>
+        {/* Header - light variant for contrast on dark background */}
+        <div className="mb-12">
+          <SectionHeader
+            title="Preguntas frecuentes"
+            subtitle="Todo lo que necesitás saber sobre AgendaYaa."
+            variant="light"
+          />
         </div>
 
         {/* FAQ Items */}
@@ -67,7 +67,7 @@ export default function FAQ() {
                   }`}
                 >
                   <svg
-                    className="w-5 h-5 text-primary-600"
+                    className="w-5 h-5 text-primary-700"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -87,7 +87,7 @@ export default function FAQ() {
                   openIndex === index ? 'max-h-96' : 'max-h-0'
                 }`}
               >
-                <div className="px-5 md:px-6 pb-5 md:pb-6 text-primary-600 leading-relaxed">
+                <div className="px-5 md:px-6 pb-5 md:pb-6 text-primary-700 leading-relaxed">
                   {faq.answer}
                 </div>
               </div>
