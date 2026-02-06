@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Zap, Check } from 'lucide-react'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 interface PresaleSectionProps {
   niche: string
@@ -9,6 +10,7 @@ interface PresaleSectionProps {
 
 export default function PresaleSection({ niche }: PresaleSectionProps) {
   const [selectedPlan, setSelectedPlan] = useState<'early' | 'standard'>('early')
+  const { ref, isInView } = useIntersectionObserver({ threshold: 0.1 })
 
   const plans = {
     early: {
@@ -45,9 +47,14 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
   const currentPlan = plans[selectedPlan]
 
   return (
-    <div className="relative py-16 px-4 rounded-3xl bg-primary-50">
+    <div
+      ref={ref}
+      className={`relative py-16 px-4 rounded-3xl bg-primary-50 transition-all duration-700
+        ${isInView ? 'opacity-100' : 'opacity-0'}`}
+    >
       <div className="max-w-5xl mx-auto relative z-10">
-        <div className="text-center mb-12 animate-fade-in-down">
+        <div className={`text-center mb-12 transition-all duration-700
+          ${isInView ? 'animate-fade-in-down' : 'opacity-0 translate-y-8'}`}>
           <div className="inline-flex items-center gap-2 bg-accent-500 text-white px-6 py-2.5 rounded-full text-sm font-bold mb-6 shadow-lg shadow-accent-500/30 animate-pulse-slow">
             <Zap className="w-4 h-4" />
             <span>PREVENTA - Oferta Limitada</span>
@@ -61,13 +68,15 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
         </div>
 
         {/* Plan Selector */}
-        <div className="flex justify-center gap-4 mb-8 animate-fade-in">
+        <div className={`flex justify-center gap-4 mb-8 transition-all duration-700
+          ${isInView ? 'animate-fade-in' : 'opacity-0'}`}
+          style={{ animationDelay: '0.2s' }}>
           <button
             onClick={() => setSelectedPlan('early')}
             className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
               selectedPlan === 'early'
                 ? 'bg-primary-900 text-white shadow-lg shadow-primary-900/30 scale-105'
-                : 'bg-white text-primary-700 hover:bg-primary-100 border-2 border-primary-200'
+                : 'bg-white text-primary-700 hover:bg-primary-100 border-2 border-primary-200 hover:scale-105'
             }`}
           >
             Acceso Anticipado
@@ -77,7 +86,7 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
             className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
               selectedPlan === 'standard'
                 ? 'bg-primary-900 text-white shadow-lg shadow-primary-900/30 scale-105'
-                : 'bg-white text-primary-700 hover:bg-primary-100 border-2 border-primary-200'
+                : 'bg-white text-primary-700 hover:bg-primary-100 border-2 border-primary-200 hover:scale-105'
             }`}
           >
             Plan Estándar
@@ -85,7 +94,10 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
         </div>
 
         {/* Pricing Card */}
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden animate-scale-in border-2 border-primary-100">
+        <div className={`bg-white rounded-3xl shadow-xl overflow-hidden border-2 border-primary-100
+          hover:shadow-2xl transition-all duration-500
+          ${isInView ? 'animate-scale-in' : 'opacity-0 scale-95'}`}
+          style={{ animationDelay: '0.3s' }}>
           {currentPlan.popular && (
             <div className="bg-accent-500 text-white text-center py-3 font-bold">
               {currentPlan.badge}
@@ -122,8 +134,9 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
               {currentPlan.features.map((feature, index) => (
                 <li
                   key={index}
-                  className="flex items-start gap-3 animate-fade-in-up"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className={`flex items-start gap-3 transition-all duration-500
+                    ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'}`}
+                  style={{ animationDelay: `${0.4 + index * 0.1}s` }}
                 >
                   <Check className="w-5 h-5 text-accent-500 mt-0.5 flex-shrink-0" />
                   <span className="text-primary-700">{feature}</span>
@@ -131,7 +144,7 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
               ))}
             </ul>
 
-            <button className="w-full bg-accent-500 hover:bg-accent-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40">
+            <button className="w-full bg-accent-500 hover:bg-accent-600 text-white font-bold py-4 px-6 rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40 btn-interactive">
               Reservar mi Acceso Anticipado
             </button>
 
@@ -144,7 +157,8 @@ export default function PresaleSection({ niche }: PresaleSectionProps) {
         </div>
 
         {/* Countdown or urgency */}
-        <div className="mt-8 text-center animate-fade-in">
+        <div className={`mt-8 text-center transition-all duration-700 delay-500
+          ${isInView ? 'animate-fade-in opacity-100' : 'opacity-0'}`}>
           <p className="text-primary-700 mb-3">
             <span className="font-bold text-accent-600">Solo quedan 47 cupos</span> para el acceso anticipado
           </p>

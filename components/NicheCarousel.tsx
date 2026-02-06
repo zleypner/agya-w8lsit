@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Apple, Palette, Dumbbell, Brain, Scissors, HeartPulse, LucideIcon } from 'lucide-react'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 interface Niche {
   slug: string
@@ -60,6 +61,7 @@ const niches: Niche[] = [
 
 export default function NicheCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { ref: sectionRef, isInView } = useIntersectionObserver({ threshold: 0.1 })
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -72,10 +74,15 @@ export default function NicheCarousel() {
   }
 
   return (
-    <section className="py-16 md:py-24">
+    <section
+      ref={sectionRef}
+      className={`py-16 md:py-24 transition-all duration-700
+        ${isInView ? 'opacity-100' : 'opacity-0'}`}
+    >
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700
+          ${isInView ? 'animate-fade-in-up' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
             AgendaYaa se adapta a tu negocio
           </h2>
@@ -89,7 +96,7 @@ export default function NicheCarousel() {
           {/* Navigation Arrows - Desktop */}
           <button
             onClick={() => scroll('left')}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-primary-900 hover:bg-primary-50 transition-colors"
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-primary-900 hover:bg-primary-50 hover:scale-110 active:scale-95 transition-all duration-200"
             aria-label="Anterior"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +105,7 @@ export default function NicheCarousel() {
           </button>
           <button
             onClick={() => scroll('right')}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-primary-900 hover:bg-primary-50 transition-colors"
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white rounded-full shadow-lg items-center justify-center text-primary-900 hover:bg-primary-50 hover:scale-110 active:scale-95 transition-all duration-200"
             aria-label="Siguiente"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,23 +118,28 @@ export default function NicheCarousel() {
             ref={scrollRef}
             className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 -mx-4 px-4 md:mx-0 md:px-0"
           >
-            {niches.map((niche) => (
+            {niches.map((niche, index) => (
               <Link
                 key={niche.slug}
                 href={`/${niche.slug}`}
-                className="flex-shrink-0 w-[280px] md:w-[300px] snap-start"
+                className={`flex-shrink-0 w-[280px] md:w-[300px] snap-start transition-all duration-700
+                  ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-8'}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="bg-white rounded-2xl border-2 border-primary-100 overflow-hidden h-full shadow-md hover:shadow-xl hover:border-primary-300 hover:-translate-y-2 transition-all duration-300 group">
-                  {/* Image */}
+                <div className="bg-white rounded-2xl border-2 border-primary-100 overflow-hidden h-full shadow-md hover:shadow-2xl hover:border-primary-300 hover:-translate-y-3 active:scale-[0.98] transition-all duration-300 group">
+                  {/* Image with lazy loading */}
                   <div className="relative w-full h-40 overflow-hidden">
                     <Image
                       src={niche.image}
                       alt={niche.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    {/* Gradient overlay on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     {/* Icon overlay */}
-                    <div className="absolute bottom-3 left-3 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-md">
+                    <div className="absolute bottom-3 left-3 w-10 h-10 rounded-full bg-white/90 flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300">
                       <niche.Icon className="w-5 h-5 text-primary-600" />
                     </div>
                   </div>
@@ -135,7 +147,7 @@ export default function NicheCarousel() {
                   {/* Content */}
                   <div className="p-5">
                     {/* Title */}
-                    <h3 className="text-xl font-bold text-primary-900 mb-2">
+                    <h3 className="text-xl font-bold text-primary-900 mb-2 group-hover:text-primary-700 transition-colors">
                       {niche.name}
                     </h3>
 
@@ -147,7 +159,7 @@ export default function NicheCarousel() {
                     {/* CTA */}
                     <span className="inline-flex items-center text-accent-600 font-semibold text-sm group-hover:text-accent-700 transition-colors">
                       Ver página
-                      <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 ml-1 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </span>
@@ -163,7 +175,7 @@ export default function NicheCarousel() {
           {niches.map((niche, index) => (
             <div
               key={index}
-              className="w-2 h-2 rounded-full bg-primary-300"
+              className="w-2 h-2 rounded-full bg-primary-300 hover:bg-white transition-colors"
             />
           ))}
         </div>

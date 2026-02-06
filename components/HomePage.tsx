@@ -1,13 +1,22 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import WaitlistForm from '@/components/WaitlistForm'
 import SocialProof from '@/components/SocialProof'
 import AuthorityBadge from '@/components/AuthorityBadge'
-import NicheCarousel from '@/components/NicheCarousel'
 import FeatureCard from '@/components/FeatureCard'
-import MetricsSection from '@/components/MetricsSection'
 import FAQ from '@/components/FAQ'
 import { Calendar, Users, Megaphone, Check } from 'lucide-react'
+import { MetricsSkeleton, CarouselSkeleton } from '@/components/ui/Skeleton'
+
+// Lazy load below-fold components for better initial load performance
+const NicheCarousel = dynamic(() => import('@/components/NicheCarousel'), {
+  loading: () => <CarouselSkeleton />,
+})
+
+const MetricsSection = dynamic(() => import('@/components/MetricsSection'), {
+  loading: () => <MetricsSkeleton />,
+})
 
 const features = [
   {
@@ -53,7 +62,7 @@ export default function HomePage() {
               {/* Hero Video */}
               <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 <div className="relative max-w-3xl mx-auto">
-                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20 hover:ring-white/30 transition-all duration-300">
                     <video
                       src="/hero/hero-video.mp4"
                       autoPlay
@@ -80,16 +89,16 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <Link
                   href="#waitlist"
-                  className="inline-flex items-center justify-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg shadow-accent-500/30"
+                  className="inline-flex items-center justify-center bg-accent-500 hover:bg-accent-600 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-[0.98] shadow-lg shadow-accent-500/30 btn-interactive"
                 >
                   Unirme a la lista
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </Link>
                 <Link
                   href="#niches"
-                  className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full border-2 border-white/30 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
+                  className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full border-2 border-white/30 hover:border-white/50 transition-all duration-300 backdrop-blur-sm hover:scale-105 active:scale-[0.98]"
                 >
                   Ver rubros
                 </Link>
@@ -97,15 +106,15 @@ export default function HomePage() {
 
               {/* Quick Proof */}
               <div className="flex flex-wrap justify-center gap-6 text-sm text-white/70 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-2 hover:text-white transition-colors">
                   <Check className="w-4 h-4 text-accent-400" />
                   Acceso anticipado
                 </span>
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-2 hover:text-white transition-colors">
                   <Check className="w-4 h-4 text-accent-400" />
                   Cupos limitados
                 </span>
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-2 hover:text-white transition-colors">
                   <Check className="w-4 h-4 text-accent-400" />
                   Soporte personal
                 </span>
@@ -115,28 +124,31 @@ export default function HomePage() {
               <div className="mt-12 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
                 <div className="relative max-w-4xl mx-auto">
                   <div className="grid grid-cols-3 gap-4">
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20 hover:ring-white/40 hover:scale-[1.02] transition-all duration-300">
                       <Image
                         src="/hero/hero-1.jpg"
                         alt="Profesional de belleza"
                         fill
                         className="object-cover"
+                        priority
                       />
                     </div>
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20 hover:ring-white/40 hover:scale-[1.02] transition-all duration-300">
                       <Image
                         src="/hero/hero-2.jpg"
                         alt="Estudio de tatuajes"
                         fill
                         className="object-cover"
+                        priority
                       />
                     </div>
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-white/20 hover:ring-white/40 hover:scale-[1.02] transition-all duration-300">
                       <Image
                         src="/hero/hero-3.jpg"
                         alt="Fisioterapia"
                         fill
                         className="object-cover"
+                        priority
                       />
                     </div>
                   </div>
@@ -192,7 +204,7 @@ export default function HomePage() {
         {/* ========== WAITLIST SECTION ========== */}
         <section id="waitlist" className="py-16 md:py-24">
           <div className="max-w-2xl mx-auto px-4">
-            <div className="card-friendly p-8 md:p-10">
+            <div className="card-friendly p-8 md:p-10 hover:shadow-2xl transition-shadow duration-300">
               {/* Header */}
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-4">

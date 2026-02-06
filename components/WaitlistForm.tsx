@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { PartyPopper, Loader2, Check } from 'lucide-react'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 interface WaitlistFormProps {
   niche: string
@@ -15,6 +16,7 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const { ref, isInView } = useIntersectionObserver<HTMLFormElement>({ threshold: 0.2 })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,8 +77,17 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 animate-fade-in">
-      <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+    <form
+      ref={ref}
+      onSubmit={handleSubmit}
+      className={`space-y-5 transition-all duration-700
+        ${isInView ? 'opacity-100' : 'opacity-0'}`}
+    >
+      <div
+        className={`transition-all duration-500
+          ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'}`}
+        style={{ animationDelay: '0.1s' }}
+      >
         <label htmlFor="name" className="block text-sm font-semibold text-primary-800 mb-2">
           Nombre completo
         </label>
@@ -87,12 +98,18 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
           required
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-3.5 border-2 border-primary-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 hover:border-primary-300 bg-white"
+          className="w-full px-4 py-3.5 border-2 border-primary-200 rounded-xl
+            focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500
+            transition-all duration-300 hover:border-primary-300 bg-white input-glow"
           placeholder="Tu nombre"
         />
       </div>
 
-      <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+      <div
+        className={`transition-all duration-500
+          ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'}`}
+        style={{ animationDelay: '0.2s' }}
+      >
         <label htmlFor="email" className="block text-sm font-semibold text-primary-800 mb-2">
           Correo electrónico
         </label>
@@ -103,12 +120,18 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
           required
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-3.5 border-2 border-primary-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 hover:border-primary-300 bg-white"
+          className="w-full px-4 py-3.5 border-2 border-primary-200 rounded-xl
+            focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500
+            transition-all duration-300 hover:border-primary-300 bg-white input-glow"
           placeholder="tu@email.com"
         />
       </div>
 
-      <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+      <div
+        className={`transition-all duration-500
+          ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'}`}
+        style={{ animationDelay: '0.3s' }}
+      >
         <label htmlFor="whatsapp" className="block text-sm font-semibold text-primary-800 mb-2">
           WhatsApp <span className="text-primary-400 font-normal">(opcional)</span>
         </label>
@@ -118,7 +141,9 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
           name="whatsapp"
           value={formData.whatsapp}
           onChange={handleChange}
-          className="w-full px-4 py-3.5 border-2 border-primary-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-300 hover:border-primary-300 bg-white"
+          className="w-full px-4 py-3.5 border-2 border-primary-200 rounded-xl
+            focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500
+            transition-all duration-300 hover:border-primary-300 bg-white input-glow"
           placeholder="+506 8888 8888"
         />
       </div>
@@ -126,7 +151,12 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary-900 hover:bg-primary-800 text-white font-bold py-4 px-6 rounded-full transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg shadow-primary-900/30 hover:shadow-xl hover:shadow-primary-900/40 animate-fade-in-up"
+        className={`w-full bg-primary-900 hover:bg-primary-800 text-white font-bold py-4 px-6 rounded-full
+          transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 active:scale-[0.98]
+          disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+          shadow-lg shadow-primary-900/30 hover:shadow-xl hover:shadow-primary-900/40
+          btn-interactive
+          ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'}`}
         style={{ animationDelay: '0.4s' }}
       >
         {isSubmitting ? (
@@ -139,7 +169,11 @@ export default function WaitlistForm({ niche }: WaitlistFormProps) {
         )}
       </button>
 
-      <div className="text-sm text-primary-600 text-center space-y-2 pt-3 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+      <div
+        className={`text-sm text-primary-600 text-center space-y-2 pt-3 transition-all duration-500
+          ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-4'}`}
+        style={{ animationDelay: '0.5s' }}
+      >
         <div className="flex items-center justify-center gap-2">
           <Check className="w-4 h-4 text-accent-500" />
           <span>Acceso anticipado</span>

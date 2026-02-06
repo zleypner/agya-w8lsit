@@ -1,3 +1,56 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
+
+interface AnimatedCounterProps {
+  value: string
+  isInView: boolean
+}
+
+function AnimatedCounter({ value, isInView }: AnimatedCounterProps) {
+  // Initialize with 0 in the correct format
+  const getInitialValue = () => {
+    const match = value.match(/^([+-]?)(\d+)(.*)$/)
+    if (!match) return value
+    const prefix = match[1] || ''
+    const suffix = match[3] || ''
+    return `${prefix}0${suffix}`
+  }
+
+  const [displayValue, setDisplayValue] = useState(getInitialValue)
+
+  useEffect(() => {
+    if (!isInView) return
+
+    const matchResult = value.match(/^([+-]?)(\d+)(.*)$/)
+    if (!matchResult) return
+
+    const prefix = matchResult[1] || ''
+    const targetNumber = parseInt(matchResult[2], 10)
+    const suffix = matchResult[3] || ''
+
+    const duration = 1000
+    const steps = 30
+    const increment = targetNumber / steps
+    let current = 0
+
+    const timer = setInterval(() => {
+      current += increment
+      if (current >= targetNumber) {
+        setDisplayValue(value)
+        clearInterval(timer)
+      } else {
+        setDisplayValue(`${prefix}${Math.floor(current)}${suffix}`)
+      }
+    }, duration / steps)
+
+    return () => clearInterval(timer)
+  }, [isInView, value])
+
+  return <span>{displayValue}</span>
+}
+
 const metrics = [
   {
     value: '-40%',
@@ -17,11 +70,17 @@ const metrics = [
 ]
 
 export default function MetricsSection() {
+  const { ref, isInView } = useIntersectionObserver({ threshold: 0.3 })
+
   return (
-    <section className="py-16 md:py-24 bg-primary-900 rounded-3xl mx-4 md:mx-8">
+    <section
+      ref={ref}
+      className={`py-16 md:py-24 bg-primary-900 rounded-3xl mx-4 md:mx-8 transition-all duration-700
+        ${isInView ? 'opacity-100' : 'opacity-0 translate-y-8'}`}
+    >
       <div className="max-w-5xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className={`text-center mb-12 transition-all duration-700 ${isInView ? 'animate-fade-in-down' : 'opacity-0'}`}>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Resultados esperables
           </h2>
@@ -35,12 +94,13 @@ export default function MetricsSection() {
           {metrics.map((metric, index) => (
             <div
               key={index}
-              className="text-center animate-fade-in-up"
-              style={{ animationDelay: `${index * 0.15}s` }}
+              className={`text-center transition-all duration-700
+                ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-8'}`}
+              style={{ animationDelay: `${index * 0.2}s` }}
             >
-              {/* Value */}
+              {/* Value with animated counter */}
               <div className="text-5xl md:text-6xl font-bold text-accent-400 mb-2">
-                {metric.value}
+                <AnimatedCounter value={metric.value} isInView={isInView} />
               </div>
 
               {/* Label */}
@@ -57,7 +117,8 @@ export default function MetricsSection() {
         </div>
 
         {/* Disclaimer */}
-        <p className="text-center text-primary-400 text-xs mt-10">
+        <p className={`text-center text-primary-400 text-xs mt-10 transition-all duration-700 delay-500
+          ${isInView ? 'opacity-100' : 'opacity-0'}`}>
           * Estimaciones basadas en patrones de negocios de citas (varía según operación).
         </p>
       </div>

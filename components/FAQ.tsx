@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
 const faqs = [
   {
@@ -27,22 +28,30 @@ const faqs = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const { ref, isInView } = useIntersectionObserver({ threshold: 0.1 })
 
   const toggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index)
   }
 
   return (
-    <section className="py-16 md:py-24">
+    <section
+      ref={ref}
+      className={`py-16 md:py-24 transition-all duration-700
+        ${isInView ? 'opacity-100' : 'opacity-0'}`}
+    >
       <div className="max-w-3xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-4">
-            Preguntas frecuentes
-          </h2>
-          <p className="text-primary-600">
-            Todo lo que necesitás saber sobre AgendaYaa.
-          </p>
+        <div className={`text-center mb-12 transition-all duration-700
+          ${isInView ? 'animate-fade-in-down' : 'opacity-0 translate-y-8'}`}>
+          <div className="gradient-primary rounded-3xl p-8 md:p-12 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Preguntas frecuentes
+            </h2>
+            <p className="text-white/90 text-lg">
+              Todo lo que necesitás saber sobre AgendaYaa
+            </p>
+          </div>
         </div>
 
         {/* FAQ Items */}
@@ -50,20 +59,24 @@ export default function FAQ() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl border-2 border-primary-100 overflow-hidden shadow-sm hover:border-primary-200 transition-colors"
+              className={`bg-white rounded-2xl border-2 border-primary-100 overflow-hidden shadow-sm
+                hover:border-primary-200 hover:shadow-md transition-all duration-300
+                ${isInView ? 'animate-fade-in-up opacity-100' : 'opacity-0 translate-y-8'}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <button
                 onClick={() => toggle(index)}
-                className="w-full flex items-center justify-between p-5 md:p-6 text-left"
+                className="w-full flex items-center justify-between p-5 md:p-6 text-left group"
                 aria-expanded={openIndex === index}
                 aria-controls={`faq-answer-${index}`}
               >
-                <span className="font-semibold text-primary-900 pr-4">
+                <span className="font-semibold text-primary-900 pr-4 group-hover:text-primary-700 transition-colors">
                   {faq.question}
                 </span>
                 <span
-                  className={`flex-shrink-0 w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
+                  className={`flex-shrink-0 w-8 h-8 rounded-full bg-primary-50 flex items-center justify-center
+                    group-hover:bg-primary-100 transition-all duration-300 ${
+                    openIndex === index ? 'rotate-180 bg-primary-100' : ''
                   }`}
                 >
                   <svg
@@ -81,14 +94,17 @@ export default function FAQ() {
                   </svg>
                 </span>
               </button>
+              {/* Smooth height animation using CSS Grid */}
               <div
                 id={`faq-answer-${index}`}
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
+                className={`grid transition-all duration-300 ease-in-out ${
+                  openIndex === index ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
                 }`}
               >
-                <div className="px-5 md:px-6 pb-5 md:pb-6 text-primary-600 leading-relaxed">
-                  {faq.answer}
+                <div className="overflow-hidden">
+                  <div className="px-5 md:px-6 pb-5 md:pb-6 text-primary-600 leading-relaxed">
+                    {faq.answer}
+                  </div>
                 </div>
               </div>
             </div>
