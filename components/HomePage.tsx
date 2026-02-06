@@ -6,6 +6,7 @@ import SocialProof from '@/components/SocialProof'
 import AuthorityBadge from '@/components/AuthorityBadge'
 import FeatureCard from '@/components/FeatureCard'
 import FAQ from '@/components/FAQ'
+import WaitlistSection from '@/components/WaitlistSection'
 import { Calendar, Users, Megaphone, Check } from 'lucide-react'
 import { MetricsSkeleton, CarouselSkeleton } from '@/components/ui/Skeleton'
 
@@ -202,24 +203,12 @@ export default function HomePage() {
         </section>
 
         {/* ========== WAITLIST SECTION ========== */}
-        <section id="waitlist" className="py-16 md:py-24">
-          <div className="max-w-2xl mx-auto px-4">
-            <div className="card-friendly p-8 md:p-10 hover:shadow-2xl transition-shadow duration-300">
-              {/* Header */}
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-4">
-                  Entrás primero. Pagás menos. Crecés más.
-                </h2>
-                <p className="text-primary-600 leading-relaxed">
-                  Sumate a la lista y te avisamos cuando abramos tu rubro. Si entrás temprano, asegurás precio fundador.
-                </p>
-              </div>
-
-              {/* Form */}
-              <WaitlistForm niche="general" />
-            </div>
-          </div>
-        </section>
+        <WaitlistSection
+          id="waitlist"
+          title="Entrás primero. Pagás menos. Crecés más."
+          subtitle="Sumate a la lista y te avisamos cuando abramos tu rubro. Si entrás temprano, asegurás precio fundador."
+          niche="general"
+        />
 
         {/* ========== FAQ SECTION ========== */}
         <FAQ />

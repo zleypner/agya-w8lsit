@@ -80,7 +80,7 @@ export default function FAQ() {
                   }`}
                 >
                   <svg
-                    className="w-5 h-5 text-primary-600"
+                    className="w-5 h-5 text-primary-700"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

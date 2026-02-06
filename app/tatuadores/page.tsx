@@ -1,8 +1,9 @@
-import WaitlistForm from '@/components/WaitlistForm'
 import PainPoint from '@/components/PainPoint'
 import SocialProof from '@/components/SocialProof'
 import AuthorityBadge from '@/components/AuthorityBadge'
 import PresaleSection from '@/components/PresaleSection'
+import SectionHeader from '@/components/SectionHeader'
+import WaitlistSection from '@/components/WaitlistSection'
 
 export const metadata = {
   title: 'AgendaYaa para Tatuadores - Lista de Espera',
@@ -49,9 +50,9 @@ export default function TatuadoresPage() {
         <section className="py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4">
             <div className="card-friendly p-8 md:p-10 animate-fade-in-up">
-              <h2 className="text-3xl font-bold text-primary-900 mb-8">
-                ¿Te identificás con estos problemas?
-              </h2>
+              <div className="mb-8">
+                <SectionHeader title="¿Te identificás con estos problemas?" variant="dark" />
+              </div>
               <ul className="space-y-4">
                 <PainPoint index={0}>
                   Las herramientas estándar no manejan bien tatuajes que requieren múltiples sesiones con seguimiento entre cada una
@@ -74,12 +75,11 @@ export default function TatuadoresPage() {
         <section className="py-16 md:py-20">
           <div className="max-w-4xl mx-auto px-4">
             <div className="card-friendly p-8 md:p-10 animate-fade-in-up">
-              <h2 className="text-3xl font-bold text-primary-900 mb-4">
-                AgendaYaa está diseñado para tatuadores
-              </h2>
-              <p className="text-primary-700 leading-relaxed text-lg">
-                Una plataforma que entiende la complejidad de tu trabajo: sesiones múltiples, gestión de diseños, portfolios, seguimiento de cicatrización y comunicación con clientes. Todo adaptado a tu flujo de trabajo real.
-              </p>
+              <SectionHeader
+                title="AgendaYaa está diseñado para tatuadores"
+                subtitle="Una plataforma que entiende la complejidad de tu trabajo: sesiones múltiples, gestión de diseños, portfolios, seguimiento de cicatrización y comunicación con clientes. Todo adaptado a tu flujo de trabajo real."
+                variant="dark"
+              />
             </div>
           </div>
         </section>
@@ -94,22 +94,11 @@ export default function TatuadoresPage() {
         {/* Presale Section */}
         <PresaleSection niche="tatuadores" />
 
-        {/* Waitlist Form */}
-        <section className="py-16 md:py-24">
-          <div className="max-w-2xl mx-auto px-4">
-            <div className="card-friendly p-8 md:p-10">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold text-primary-900 mb-4">
-                  Unite a la lista de espera
-                </h2>
-                <p className="text-primary-600 leading-relaxed">
-                  Sumate y te avisamos cuando abramos acceso para tatuadores. Entrás temprano, asegurás precio fundador.
-                </p>
-              </div>
-              <WaitlistForm niche="tatuadores" />
-            </div>
-          </div>
-        </section>
+        <WaitlistSection
+          title="Unite a la lista de espera"
+          subtitle="Sumate y te avisamos cuando abramos acceso para tatuadores. Entrás temprano, asegurás precio fundador."
+          niche="tatuadores"
+        />
       </div>
     </div>
   )
